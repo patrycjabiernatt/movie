@@ -1,0 +1,51 @@
+{% extends 'movie_base.html' %}
+
+{% block page_title %}
+    Lista filmów
+{% endblock %}
+
+{% block page_content %}
+    <div class="uk-flex uk-flex-between uk-margin-large-top">
+        <div>Liczba filmów: {{ aggregation_data.id__count }}</div>
+        <div>Średnia ocena: {{ aggregation_data.statistics__vote_average__avg|floatformat:2 }}</div>
+        <div>Min. ocena: {{ aggregation_data.statistics__vote_average__min|floatformat:2 }}</div>
+        <div>Max. ocena: {{ aggregation_data.statistics__vote_average__max|floatformat:2 }}</div>
+    </div>
+    <form class="uk-width-1-1 uk-flex gap-small uk-margin-medium-top">
+        <input
+                placeholder="Wyszukaj po nazwie"
+                id="title" name="title" class="uk-input uk-border-rounded uk-margin-small-right" >
+        <button type="submit" class="uk-button uk-button-default uk-border-rounded">
+            Szukaj
+        </button>
+    </form>
+    {% if filter_title %}
+        <span>Filtr nazwy: {{ filter_title }}</span>
+    {% endif %}
+    <table class="uk-table uk-table-striped">
+        <thead>
+        <tr>
+            <th>Tytuł</th>
+            <th>Opis</th>
+            <th>Data wydania</th>
+            <th>Liczba głosów</th>
+            <th>Średnia ocena</th>
+            <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for movie in movies %}
+            <tr>
+                <td>{{ movie.original_title|title }}</td>
+                <td>{{ movie.overview }}</td>
+                <td>{{ movie.release_date|date:'D d M Y' }}</td>
+                <td>{{ movie.vote_count }}</td>
+                <td>{{ movie.vote_average|floatformat:2 }}</td>
+                <td>
+                    <a href="{% url 'movie_details_url' id=movie.id %}">Szczegóły</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

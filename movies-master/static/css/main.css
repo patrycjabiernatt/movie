@@ -1,0 +1,16 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+.side-bar {
+    background: black;
+    color: white;
+}
+
+.gap-small {
+    gap: 15px;
+}
